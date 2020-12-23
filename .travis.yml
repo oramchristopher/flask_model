@@ -1,10 +1,15 @@
+language:
+  - generic
 services:
   - docker
+before_install:
+  - docker image build -t "$DOCKERUSER"/"$DOCKER_IMG" .
 
-before install:
-  - docker image build -t oramchristopher/flask_app:v1.0 .
-  - gem update --system
+before_deploy:
+  - docker login --username "$DOCKERUSER" --password "$DOCKERPWD"
 
 deploy:
-  - docker login --username "$DOCKERUSER" --password "$DOCKERPWD"
-  - docker image push oramchristopher/flask_app:v1.0
+  provider: script
+  script: docker image push "$DOCKERUSER"/"$DOCKER_IMG"
+  on:
+    branch: main
