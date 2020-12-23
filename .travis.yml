@@ -3,6 +3,7 @@ services:
 
 before install:
   - docker image build -t oramchristopher/flask_app:v1.0 .
+  - gem update --system
 
 deploy:
   - docker login --username "$DOCKERUSER" --password "$DOCKERPWD"
